@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Isi Hati Bayu</title>
 
-  <!-- Fonts & AOS -->
+  <!-- Font & AOS -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
 
@@ -20,7 +20,6 @@
       color: #fff;
       overflow-x: hidden;
       scroll-behavior: smooth;
-      position: relative;
     }
     section {
       position: relative;
@@ -32,7 +31,6 @@
       flex-direction: column;
       text-align: center;
       background: linear-gradient(to bottom right, #0b0b0b, #1a1a1a);
-      z-index: 2;
     }
     h1, h2 {
       font-family: 'Great Vibes', cursive;
@@ -74,15 +72,15 @@
       z-index: 0;
     }
 
-    .siluet {
-      width: 120px;
+    .foto-ku {
+      width: 150px;
       height: auto;
+      border-radius: 20px;
       margin-bottom: 20px;
-      opacity: 0.8;
-      filter: invert(1);
+      box-shadow: 0 6px 20px rgba(255, 158, 196, 0.2);
     }
 
-    .music-control {
+    .music-control, .voice-control {
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -95,84 +93,30 @@
       color: #ff9ec4;
       cursor: pointer;
       z-index: 999;
+      margin-top: 10px;
     }
-
-    /* Overlay untuk izin suara */
-    #sound-permission {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-    }
-    #sound-permission button {
-      background: #ff9ec4;
-      border: none;
-      color: #000;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    /* Floating hearts */
-    .hearts {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 1;
-    }
-    .heart {
-      position: absolute;
-      width: 20px; height: 20px;
-      background: #ff6ba3;
-      clip-path: polygon(50% 0%, 61% 20%, 80% 20%, 100% 40%, 100% 61%, 80% 80%, 61% 100%, 50% 90%, 39% 100%, 20% 80%, 0% 61%, 0% 40%, 20% 20%, 39% 20%);
-      animation: floatUp linear forwards;
-    }
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) scale(0.5);
-        opacity: 0;
-      }
+    .voice-control {
+      right: 150px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Izin suara -->
-  <div id="sound-permission">
-    <h2>Klik untuk mengaktifkan musik dan suara cinta</h2>
-    <button id="allow-sound-btn">Izinkan</button>
-  </div>
-
-  <!-- Musik & Pesan Cinta -->
-  <audio id="bg-music" loop>
+  <!-- Musik Latar -->
+  <audio id="bg-music" autoplay loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_d3e0e3dbaa.mp3?filename=romantic-piano-110054.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Pesan Suara Cinta -->
   <audio id="voice-message">
-    <source src="https://cdn.pixabay.com/download/audio/2022/06/15/audio_d610ef3db4.mp3?filename=love-letter-112783.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2023/02/01/audio_f92a4a99f2.mp3?filename=i-love-you-134084.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Kontrol Musik -->
   <button class="music-control" onclick="toggleMusic()">Pause Music</button>
+  <button class="voice-control" onclick="playVoice()">Putar Pesan Cinta</button>
 
-  <!-- Efek -->
+  <!-- Efek Glitter -->
   <div class="glitter"></div>
-  <div class="hearts"></div>
 
   <!-- Navigasi -->
   <nav>
@@ -186,7 +130,7 @@
 
   <!-- Halaman 1 -->
   <section id="page1" data-aos="fade-up">
-    <img src="https://cdn-icons-png.flaticon.com/512/3040/3040701.png" alt="siluet pasangan" class="siluet"/>
+    <img src="https://i.postimg.cc/1RkrGpgH/IMG-20250401-163659-245.jpg" alt="Foto kami" class="foto-ku"/>
     <h1>Selamat datang di isi hati Bayu</h1>
     <p>Tempat di mana kata menjadi pelukan, dan rindu menjadi cerita yang abadi...</p>
   </section>
@@ -198,7 +142,7 @@
       Sore itu langit tak hanya jingga,<br>
       Tapi menyimpan cahaya matamu.<br>
       Tak banyak kata, tak banyak tanya,<br>
-      Tapi dunia terasa lebih indah jika ada kamu.
+      Tapi dunia terasa lebih indah ada kamu.
     </p>
   </section>
 
@@ -240,49 +184,27 @@
     </p>
   </section>
 
-  <!-- Script AOS & Audio Control -->
+  <!-- Script AOS & Musik -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init();
+    AOS.init({ duration: 1500, once: true });
 
-    // Audio permission handler
-    const allowBtn = document.getElementById('allow-sound-btn');
-    const overlay = document.getElementById('sound-permission');
-    const bgMusic = document.getElementById('bg-music');
-    const voiceMsg = document.getElementById('voice-message');
-
-    allowBtn.addEventListener('click', () => {
-      overlay.style.display = 'none';
-      bgMusic.volume = 0.4;
-      voiceMsg.volume = 1.0;
-      bgMusic.play().catch(e => console.log(e));
-      voiceMsg.play().catch(e => console.log(e));
-    });
-
-    // Music toggle
     function toggleMusic() {
-      if (bgMusic.paused) {
-        bgMusic.play();
-        document.querySelector('.music-control').textContent = "Pause Music";
+      const music = document.getElementById("bg-music");
+      const button = document.querySelector(".music-control");
+      if (music.paused) {
+        music.play();
+        button.textContent = "Pause Music";
       } else {
-        bgMusic.pause();
-        document.querySelector('.music-control').textContent = "Play Music";
+        music.pause();
+        button.textContent = "Play Music";
       }
     }
 
-    // Floating hearts
-    const heartsContainer = document.querySelector('.hearts');
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = 4 + Math.random() * 4 + 's';
-      heartsContainer.appendChild(heart);
-      setTimeout(() => {
-        heart.remove();
-      }, 8000);
+    function playVoice() {
+      const voice = document.getElementById("voice-message");
+      voice.play();
     }
-    setInterval(createHeart, 500);
   </script>
 </body>
 </html>
